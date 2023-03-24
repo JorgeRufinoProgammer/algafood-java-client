@@ -4,9 +4,12 @@ import java.net.URI;
 import java.util.Arrays;
 import java.util.List;
 
+import org.springframework.web.client.RestClientResponseException;
 import org.springframework.web.client.RestTemplate;
 
-import com.algaworks.algafood.client.model.RestauranteResumoDto;
+import com.algaworks.algafood.client.model.Restaurante;
+import com.algaworks.algafood.client.model.RestauranteResumo;
+import com.algaworks.algafood.client.model.input.RestauranteInput;
 
 import lombok.AllArgsConstructor;
 
@@ -20,13 +23,30 @@ public class RestauranteClient {
 //	Esta classe ajuda a fazer requisiçoes web
 	private RestTemplate restTemplate; 
 		
-	public List<RestauranteResumoDto> listar(){
+	public List<RestauranteResumo> listar(){
+		try {
 //		URI onde será feito o GET
-		URI resourceUri =URI.create(url + RESOURCE_PATH);
-		
+			URI resourceUri =URI.create(url + RESOURCE_PATH);
+			
 //		Faz o "get" na uri e deserealiza os objetos em um array 
-		RestauranteResumoDto[] restaurantes = restTemplate.getForObject(resourceUri, RestauranteResumoDto[].class);
-		
-		return Arrays.asList(restaurantes);
+			RestauranteResumo[] restaurantes = restTemplate.getForObject(resourceUri, RestauranteResumo[].class);
+			
+			return Arrays.asList(restaurantes);
+		} catch (RestClientResponseException e) {
+			throw new ClientApiException(e.getMessage(), e);
+		}
+	}
+	
+	public Restaurante adicionar (RestauranteInput restauranteInput) {
+		try {
+			URI resourceUri =URI.create(url + RESOURCE_PATH);
+			
+			Restaurante restaurante = restTemplate.postForObject(resourceUri, restauranteInput, Restaurante.class);
+			
+			return restaurante;
+			
+		} catch (RestClientResponseException e) {
+			throw new ClientApiException(e.getMessage(), e);
+		}
 	}
 }

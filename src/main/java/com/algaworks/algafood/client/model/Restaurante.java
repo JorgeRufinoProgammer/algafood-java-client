@@ -5,10 +5,13 @@ import java.math.BigDecimal;
 import lombok.Data;
 
 @Data
-public class RestauranteResumoDto {
+public class Restaurante {
 	
 	private Long id;
 	private String nome;
 	private BigDecimal taxaFrete;
-	private CozinhaDto cozinha;
+	private Cozinha cozinha;
+	private Endereco endereco;
+	private boolean ativo;
+	private boolean aberto;
 }
