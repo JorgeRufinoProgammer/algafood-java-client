@@ -25,7 +25,7 @@ public class InclusaoRestauranteMain {
 			restauranteInput.setTaxaFrete(new BigDecimal("5.0"));
 			
 			CozinhaInput cozinha = new CozinhaInput();
-			cozinha.setId(4L);
+//			cozinha.setId(4L);
 			
 			CidadeInput cidade = new CidadeInput();
 			cidade.setId(6L);
